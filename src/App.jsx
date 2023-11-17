@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -9,8 +9,19 @@ import TaskList from './components/TaskList';
 function App() {
   const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState('');
-  const [editIndex, setEditIndex] = useState(null); // 
-  const [editedTask, setEditedTask] = useState(''); // 
+  const [editIndex, setEditIndex] = useState(null);  
+  const [editedTask, setEditedTask] = useState(''); 
+
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    setTasks(storedTasks);
+  }, []);
+
+ 
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
+  
 
   const addTask = () => {
     if (newTask.trim() !== '') {
